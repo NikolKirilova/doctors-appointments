@@ -15,11 +15,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
-    <link id="bs-css" href="https://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+     
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -48,6 +44,13 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                    @if(auth()->check()&& auth()->user()->role->name === 'patient')
+                    @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('my.booking') }}">{{ __('My Booking') }}</a>
+                        </li>
+                        @endif
+                    @endif
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
@@ -68,6 +71,11 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            @if(auth()->check()&& auth()->user()->role->name === 'patient')
+                            <a href="{{url('user-profile')}}" class="dropdown-item">Profile</a>
+                            @else
+                            <a href="{{url('dashboard')}}" class="dropdown-item">Dashboard</a>
+                            @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -91,23 +99,7 @@
 
 
 
-    <script type="text/javascript">
-        $(function() {
-            $('#datetimepicker1').datepicker({
-                format: "yy-mm-dd",
-                weekStart: 0,
-                calendarWeeks: true,
-                autoclose: true,
-                todayHighlight: true,
-                orientation: "auto",
-                maxDate: moment(),
-                dateFormat: "yy-mm-dd",
-                showButtonPanel: true,
-                numberOfMonths: 2,
-                 
-            });
-        });
-    </script>
+   
 
 <style type="text/css">
  body{
